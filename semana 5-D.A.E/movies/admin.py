@@ -5,6 +5,17 @@ from django.contrib import admin
 from .models import Genre, Movie, Person, Rating
 
 
+class RatingInline(admin.TabularInline):
+    """Ratings shown as a block of rows inside the movie form."""
+
+    model = Rating
+    extra = 1
+    fields = ('person', 'score', 'comment')
+    autocomplete_fields = ('person',)
+    verbose_name = 'Rating'
+    verbose_name_plural = 'Ratings'
+
+
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     list_display = ('name', 'movie_count')
@@ -30,6 +41,19 @@ class MovieAdmin(admin.ModelAdmin):
     list_filter = ('genres', 'release_year')
     search_fields = ('title', 'synopsis')
     ordering = ('-release_year', 'title')
+    filter_horizontal = ('genres', 'directors', 'actors')
+    inlines = (RatingInline,)
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        (None, {'fields': ('title', 'synopsis', 'poster')}),
+        ('Details', {'fields': ('release_year', 'duration_minutes')}),
+        ('Classification', {'fields': ('genres',)}),
+        ('People', {'fields': ('directors', 'actors')}),
+        ('Audit', {
+            'fields': ('created_at', 'updated_at'),
+            'description': 'These fields are filled automatically and cannot be edited.',
+        }),
+    )
 
     @admin.display(description='Genres')
     def genre_list(self, obj):
@@ -46,3 +70,4 @@ class RatingAdmin(admin.ModelAdmin):
     list_filter = ('score',)
     search_fields = ('movie__title', 'person__first_name', 'person__last_name')
     ordering = ('-score',)
+    autocomplete_fields = ('person',)
