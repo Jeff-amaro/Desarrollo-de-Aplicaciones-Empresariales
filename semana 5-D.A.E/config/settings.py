@@ -58,6 +58,11 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# The Django test client uses the "testserver" host, so it is only allowed
+# while running in debug mode.
+if DEBUG:
+    ALLOWED_HOSTS.append('testserver')
+
 
 # Application definition
 

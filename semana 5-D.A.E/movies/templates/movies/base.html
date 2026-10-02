@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Recomendaciones{% endblock %} | Movie Lab</title>
+  <style>
+    :root {
+      --bg: #10141c;
+      --panel: #1a2130;
+      --border: #2c3648;
+      --text: #e8ecf4;
+      --muted: #97a3b8;
+      --accent: #5aa9e6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    header, main, footer {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+    header p { margin: 0; color: var(--muted); }
+    nav { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+    nav a { color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+    nav a:hover { text-decoration: underline; }
+    h2 { font-size: 1.15rem; margin: 0 0 12px; color: var(--accent); }
+    .group {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+    .movie {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+    }
+    .movie:first-of-type { border-top: none; }
+    .movie-title { font-weight: 600; }
+    .movie-title a { color: var(--text); text-decoration: none; }
+    .movie-title a:hover { color: var(--accent); }
+    .movie-meta { color: var(--muted); font-size: 0.88rem; }
+    .score {
+      background: var(--accent);
+      color: #06121f;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    .empty {
+      background: var(--panel);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      color: var(--muted);
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    form.search { display: flex; gap: 8px; }
+    form.search input {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    form.search button {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: #06121f;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tags { margin-top: 4px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 1px 9px;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{% block heading %}Movie Lab{% endblock %}</h1>
+    <p>{% block subtitle %}Catálogo público del laboratorio{% endblock %}</p>
+    <nav>
+      <a href="{% url 'movies:recommendations' %}">Recomendaciones</a>
+      <a href="{% url 'movies:movie_search' %}">Buscar película</a>
+      <a href="/admin/">Panel de administración</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    Desarrollo de Aplicaciones Empresariales &middot; Semana 5
+  </footer>
+</body>
+</html>

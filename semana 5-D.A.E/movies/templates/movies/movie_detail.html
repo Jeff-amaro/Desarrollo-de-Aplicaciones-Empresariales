@@ -1,0 +1,65 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+{% block heading %}{{ movie.title }}{% endblock %}
+{% block subtitle %}
+  {{ movie.release_year }}
+  {% if movie.duration_minutes %} &middot; {{ movie.duration_minutes }} minutos{% endif %}
+  {% if average_rating %} &middot; promedio {{ average_rating }}/10{% endif %}
+{% endblock %}
+
+{% block content %}
+  <section class="group">
+    <h2>G&eacute;nero{{ movie.genres.all|length|pluralize:"s" }}</h2>
+    <div class="tags">
+      {% for genre in movie.genres.all %}
+        <span class="tag">{{ genre.name }}</span>
+      {% empty %}
+        <span class="movie-meta">Sin género asignado.</span>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% if movie.synopsis %}
+    <section class="group">
+      <h2>S&iacute;nosis</h2>
+      <p>{{ movie.synopsis }}</p>
+    </section>
+  {% endif %}
+
+  {% if movie.directors.exists or movie.actors.exists %}
+    <section class="group">
+      <h2>Reparto y direcci&oacute;n</h2>
+      {% if movie.directors.exists %}
+        <p class="movie-meta">
+          Direcci&oacute;n:
+          {% for person in movie.directors.all %}{{ person }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </p>
+      {% endif %}
+      {% if movie.actors.exists %}
+        <p class="movie-meta">
+          Reparto:
+          {% for person in movie.actors.all %}{{ person }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </p>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  <section class="group">
+    <h2>Valoraci&oacute;nes</h2>
+    {% for rating in ratings %}
+      <div class="movie">
+        <div>
+          <div class="movie-title">{{ rating.person }}</div>
+          <div class="movie-meta">{{ rating.created_at|date:"d/m/Y" }}</div>
+          {% if rating.comment %}
+            <p>{{ rating.comment }}</p>
+          {% endif %}
+        </div>
+        <span class="score">{{ rating.score }}/10</span>
+      </div>
+    {% empty %}
+      <p class="movie-meta">Esta pel&iacute;cula todav&iacute;a no tiene valoraciones.</p>
+    {% endfor %}
+  </section>
+{% endblock %}

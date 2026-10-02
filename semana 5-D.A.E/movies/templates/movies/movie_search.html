@@ -1,0 +1,37 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Buscar película{% endblock %}
+{% block heading %}Buscar pel&iacute;cula{% endblock %}
+{% block subtitle %}Busca por t&iacute;tulo, a&ntilde;o o g&eacute;nero{% endblock %}
+
+{% block content %}
+  <section class="group">
+    <form class="search" method="get" action="{% url 'movies:movie_search' %}">
+      <input type="search" name="q" value="{{ query }}"
+             placeholder="Por ejemplo: Matrix, 1999, ciencia ficción" autofocus>
+      <button type="submit">Buscar</button>
+    </form>
+  </section>
+
+  {% if query %}
+    <section class="group">
+      <h2>{{ result_count }} resultado{{ result_count|pluralize:"s" }} para &laquo;{{ query }}&raquo;</h2>
+      {% for movie in movies %}
+        <div class="movie">
+          <div>
+            <div class="movie-title">
+              <a href="{% url 'movies:movie_detail' movie.pk %}">{{ movie.title }}</a>
+            </div>
+            <div class="movie-meta">
+              {{ movie.release_year }}
+              {% for genre in movie.genres.all %}&middot; {{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </div>
+          </div>
+          <span class="score">{% if movie.average_rating %}{{ movie.average_rating }}{% else %}-{% endif %}</span>
+        </div>
+      {% empty %}
+        <p class="movie-meta">Ning&uacute;n resultado para esa b&uacute;squeda.</p>
+      {% endfor %}
+    </section>
+  {% endif %}
+{% endblock %}
