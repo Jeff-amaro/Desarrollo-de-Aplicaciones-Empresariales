@@ -30,3 +30,11 @@ Movies/Ratings
 
 
 <img width="923" height="747" alt="image" src="https://github.com/user-attachments/assets/16b7fb39-f039-4f2b-8f03-389020849cc6" />
+
+
+
+conclusiones:
+1. El panel de administración de Django permite gestionar los modelos Movie, Genre, Person y Rating sin crear vistas manualmente, facilitando el registro, la consulta, la edición y la eliminación de datos.
+2. La personalización con ModelAdmin mejora la organización y búsqueda de información mediante columnas, filtros y campos de búsqueda, haciendo que la gestión de películas sea más rápida y sencilla.
+3. Los formularios en línea permiten registrar valoraciones desde la misma página de una película, mientras que los campos de solo lectura protegen las fechas de creación y actualización, mejorando la integridad de los datos.
+4. La configuración de grupos y permisos permite controlar el acceso según el rol del usuario. Las pruebas con el superusuario y el grupo de editores permitieron comprobar que cada uno solo puede realizar las operaciones autorizadas.
